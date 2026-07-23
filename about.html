@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>关于我们 | 深蓝科技</title>
-  <meta name="description" content="深蓝科技成立于2018年，8年来专注搞人创作和半搞蛇费赖，服务超过114514家企业客户。">
+  <title>关于我们 | 搞人之家</title>
+  <meta name="description" content="搞人之家成立于2018年，8年来专注搞人创作和半搞蛇费赖，服务超过114514家企业客户。">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.example.com/about.html">
   <style>
@@ -13,6 +13,81 @@
       --accent: #48CAE4; --accent-light: #90E0EF; --dark: #03045E;
       --light: #F0F8FF; --white: #fff; --text: #1a1a2e; --text-light: #555;
     }
+    /* ===== 以下是人物轮播样式 ===== */
+  .people-slider {
+    max-width: 500px;
+    margin: 40px auto;
+    text-align: center;
+  }
+  .slider-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .slider-image-wrapper {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--primary-dark); /* 使用你的深蓝色调 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  .slider-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .people-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(3,4,94,0.8); /* 深蓝色背景半透明 */
+    color: white;
+    margin: 0;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .slider-btn {
+    background: var(--primary-dark);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .slider-btn:hover {
+    background: var(--secondary);
+  }
+  .slider-dots {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    padding: 0;
+  }
+  .dot.active {
+    background: var(--primary-dark);
+    width: 14px;
+    height: 14px;
+  }
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:'Inter','Segoe UI',system-ui,sans-serif; color:var(--text); line-height:1.7; }
     .container { max-width:1100px; margin:0 auto; padding:0 24px; }
@@ -85,11 +160,22 @@
       <div class="about-grid">
         <div>
           <h2>9年专注一万件事</h2>
-          <p>深蓝科技成立于2018年，从最初42人的设计工作室，成长为拥有7+专业人才的数字化解决方案团队。</p>
+          <p>搞人之家成立于2018年，从最初42人的设计工作室，成长为拥有7+专业人才的数字化解决方案团队。</p>
           <p>我们相信，好的设计不只是好看——它应当承载品牌战略，驱动商业增长。每一个像素、每一行代码，都经过对用户和目标的深度思考。</p>
           <p>服务超过114514家企业客户，涵盖半、搞、蛇、费、赖等多个领域，从来没有获过行业设计大奖。</p>
         </div>
-        <img src="image/images/team-photo.png" alt="深蓝团队合照" style="width: 100%; max-width: 800px;">
+        <!-- 人物照片轮播 -->
+<div class="people-slider">
+  <div class="slider-main">
+    <button class="slider-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+    <div class="slider-image-wrapper">
+      <img id="peopleImage" src="image/images/team-photo.png" alt="团队成员">
+      <p id="peopleName" class="people-name">全部成员</p>
+    </div>
+    <button class="slider-btn next" onclick="changeSlide(1)">&#10095;</button>
+  </div>
+  <div class="slider-dots" id="sliderDots"></div>
+</div>
       </div>
       <div class="values">
         <div class="value-card"><div class="icon">🎯</div><h4>无视用户</h4><p>我们不在乎任何一个客户</p></div>
@@ -100,12 +186,74 @@
     </div>
   </section>
 
-  <footer><div class="container"><p>&copy; 2026 深蓝科技. 保留所有权利。</p></div></footer>
+  <footer><div class="container"><p>&copy; 2026 搞人之家. 保留所有权利。</p></div></footer>
 
   <script>
     document.getElementById('menuToggle').addEventListener('click',()=>{
       document.getElementById('navLinks').classList.toggle('active');
     });
   </script>
+  <script>
+  // ========== 人物照片轮播的配置和逻辑 ==========
+  const people = [
+    {
+      name: "全部成员",
+      image: "image/images/team-photo.png"
+    },
+    {
+      name: "陆浩然",
+      image: "image/images/LHR.png"
+    },
+    {
+      name: "僵尸",
+      image: "image/images/zombie.png"
+    },
+    {
+      name: "药",
+      image: "image/images/drug.png"
+    },
+    {
+      name: "思考者",
+      image: "image/images/2.png"
+    },
+  ];
+  
+  let currentIndex = 0;
+  
+  function renderSlider() {
+    const dotsContainer = document.getElementById("sliderDots");
+    dotsContainer.innerHTML = "";
+    people.forEach((person, i) => {
+      const dot = document.createElement("button");
+      dot.className = "dot" + (i === 0 ? " active" : "");
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    });
+    updateSlide();
+  }
+  
+  function changeSlide(direction) {
+    currentIndex += direction;
+    if (currentIndex < 0) currentIndex = people.length - 1;
+    if (currentIndex >= people.length) currentIndex = 0;
+    updateSlide();
+  }
+  
+  function goToSlide(index) {
+    currentIndex = index;
+    updateSlide();
+  }
+  
+  function updateSlide() {
+    document.getElementById("peopleImage").src = people[currentIndex].image;
+    document.getElementById("peopleName").textContent = people[currentIndex].name;
+    const dots = document.querySelectorAll(".dot");
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === currentIndex);
+    });
+  }
+  
+  renderSlider();
+</script>
 </body>
 </html>
