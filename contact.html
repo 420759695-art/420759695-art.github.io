@@ -88,22 +88,42 @@
           <div class="info-item"><span class="icon">⏰</span> 周八至周十六 13:00-13:01</div>
         </div>
 
-        <div class="contact-form" id="formContainer">
-          <h3>发送咨询</h3>
-          <!-- ====== 真实邮件发送：将 YOUR_FORM_ID 替换为你的 Formspree ID ====== -->
-          <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-            <div class="form-group">
-              <label for="name">姓名 *</label>
-              <input type="text" id="name" name="name" placeholder="你的姓名" required>
-            </div>
-            <div class="form-group">
-              <label for="email">邮箱 *</label>
-              <input type="email" id="email" name="email" placeholder="your@company.com" required>
-            </div>
-            <div class="form-group">
-              <label for="service">感兴趣的服务</label>
-              <select id="service" name="service">
-                <option value="">请选择</option>
+       <div class="contact-form" id="formContainer">
+  <h3>发送咨询</h3>
+  <!-- ====== 使用 Static Forms 发送邮件 ====== -->
+  <form id="contactForm"
+        action="https://api.staticforms.xyz/submit"
+        method="POST">
+
+    <!-- ① 你的 Static Forms Access Key（去后台复制） -->
+    <input type="hidden" name="accessKey" value="sf_adc3124c98132160702a873c">
+
+    <!-- ② 邮件标题（收到的邮件会显示这个） -->
+    <input type="hidden" name="subject" value="网站新咨询">
+
+    <!-- ③ 回复地址：填你表单里邮箱字段的 name（这里是 email） -->
+    <input type="hidden" name="replyTo" value="email">
+
+    <!-- ④ 防垃圾 honeypot（机器人会填，人类看不见） -->
+    <input type="text" name="_honeypot" style="display:none" autocomplete="off">
+
+    <!-- ⑤ 提交成功后跳转的页面（可选，没有就删掉） -->
+    <input type="hidden" name="redirectTo" value="https://你的域名/thanks.html">
+
+    <div class="form-group">
+      <label for="name">姓名 *</label>
+      <input type="text" id="name" name="name" placeholder="你的姓名" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">邮箱 *</label>
+      <input type="email" id="email" name="email" placeholder="your@company.com" required>
+    </div>
+
+    <div class="form-group">
+      <label for="service">感兴趣的服务</label>
+      <select id="service" name="service">
+        <option value="">请选择</option>
                 <option value="星穹铁道">星穹铁道</option>
                 <option value="原神启动">原神启动</option>
                 <option value="明日方舟">明日方舟</option>
