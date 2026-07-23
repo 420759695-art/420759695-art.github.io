@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>深蓝科技 | 数字化解决方案提供商</title>
+  <meta name="description" content="深蓝科技提供品牌设计、网站开发与数字营销一体化解决方案，助力企业数字化转型。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.example.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="深蓝科技 | 数字化解决方案提供商">
+  <meta property="og:description" content="品牌设计、网站开发与数字营销一体化解决方案。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.example.com/">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "深蓝科技",
+    "url": "https://www.example.com",
+    "description": "数字化解决方案提供商",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+86-400-168-8888",
+      "contactType": "customer service"
+    }
+  }
+  </script>
+
+  <style>
+    /* ============ 全局变量（青蓝色系） ============ */
+    :root {
+      --primary: #0077B6;
+      --primary-dark: #023E8A;
+      --secondary: #00B4D8;
+      --accent: #48CAE4;
+      --accent-light: #90E0EF;
+      --dark: #03045E;
+      --light: #F0F8FF;
+      --white: #ffffff;
+      --text: #1a1a2e;
+      --text-light: #555;
+      --shadow: 0 8px 32px rgba(0, 119, 182, 0.12);
+      --shadow-lg: 0 20px 60px rgba(0, 119, 182, 0.18);
+      --radius: 16px;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: default;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ============ 自定义鼠标光晕 ============ */
+    .cursor-glow {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 180, 216, 0.15) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+      will-change: left, top;
+    }
+
+    /* ============ 导航栏 ============ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 16px 0;
+      background: transparent;
+      transition: all var(--transition);
+    }
+    .navbar.scrolled {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+      padding: 10px 0;
+    }
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+      transition: color var(--transition);
+      text-decoration: none;
+    }
+    .navbar.scrolled .logo { color: var(--primary-dark); }
+    .logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      position: relative;
+      padding: 4px 0;
+      transition: color var(--transition);
+    }
+    .navbar.scrolled .nav-links a { color: var(--text); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--accent);
+      color: var(--white) !important;
+      padding: 8px 20px !important;
+      border-radius: 30px;
+      transition: all var(--transition) !important;
+    }
+    .nav-cta:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 180, 216, 0.35);
+    }
+    .nav-cta::after { display: none !important; }
+    .menu-toggle {
+      display: none;
+      cursor: pointer;
+      font-size: 1.6rem;
+      color: var(--white);
+      background: none;
+      border: none;
+    }
+    .navbar.scrolled .menu-toggle { color: var(--primary-dark); }
+
+    /* ============ Hero 视差区域 ============ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(160deg, #023E8A 0%, #0077B6 30%, #00B4D8 60%, #48CAE4 100%);
+    }
+    /* 视差背景层 */
+    .hero .parallax-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hero .parallax-bg-1 {
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><circle cx="200" cy="150" r="120" fill="rgba(255,255,255,0.04)"/><circle cx="900" cy="600" r="180" fill="rgba(255,255,255,0.03)"/><circle cx="600" cy="350" r="80" fill="rgba(255,255,255,0.05)"/></svg>') center/cover;
+      will-change: transform;
+    }
+    .hero .parallax-bg-2 {
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><polygon points="100,700 300,500 500,650 700,400 900,600 1100,450" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="3"/></svg>') center/cover;
+      will-change: transform;
+    }
+    .hero .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 750px;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 4.5rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      letter-spacing: -1px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--accent-light), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 2.5rem;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 14px 34px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all var(--transition);
+      cursor: pointer;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+      box-shadow: 0 8px 28px rgba(72, 202, 228, 0.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px rgba(72, 202, 228, 0.5);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--white);
+    }
+    /* 波纹 */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      transform: scale(0);
+      animation: rippleAnim 0.7s ease-out;
+      pointer-events: none;
+    }
+    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+    /* 向下滚动指示器 */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      animation: bounceDown 2s infinite;
+    }
+    .scroll-indicator span {
+      display: block;
+      width: 28px;
+      height: 28px;
+      border-right: 2px solid rgba(255,255,255,0.7);
+      border-bottom: 2px solid rgba(255,255,255,0.7);
+      transform: rotate(45deg);
+    }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* ============ 通用区块样式 ============ */
+    section { padding: 100px 0; }
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+    .section-header p {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    .section-tag {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--primary-dark);
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* ============ 入场动画 ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============ 服务卡片（3D悬停倾斜） ============ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.15s ease-out, box-shadow var(--transition);
+      transform-style: preserve-3d;
+      perspective: 800px;
+      position: relative;
+      border: 1px solid rgba(0, 180, 216, 0.08);
+    }
+    .service-card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+    .service-icon {
+      font-size: 3rem;
+      margin-bottom: 1.2rem;
+      display: inline-block;
+      transition: transform 0.3s;
+    }
+    .service-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      color: var(--dark);
+    }
+    .service-card p {
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .service-card .card-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .service-card .card-link:hover { color: var(--secondary); }
+
+    /* ============ 统计数据 ============ */
+    .stats-section {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: var(--white);
+      text-align: center;
+    }
+    .stats-grid {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .stat-item h3 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .stat-item p { opacity: 0.85; font-size: 1.05rem; }
+
+    /* ============ 案例卡片 ============ */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+    }
+    .portfolio-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .portfolio-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+    .portfolio-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      background: #e0e7ee;
+    }
+    .portfolio-card .card-body {
+      padding: 1.5rem;
+    }
+    .portfolio-card h4 { margin-bottom: 0.5rem; color: var(--dark); }
+
+    /* ============ 联系 CTA ============ */
+    .cta-section {
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: var(--white);
+      text-align: center;
+    }
+    .cta-section h2 { color: var(--white); }
+
+    /* ============ 页脚 ============ */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.7);
+      padding: 50px 0;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+    .footer-col h4 {
+      color: var(--white);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .footer-col a {
+      display: block;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.85rem;
+    }
+
+    /* ============ 粒子Canvas ============ */
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* ============ 响应式 ============ */
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 72%;
+        height: 100vh;
+        background: var(--white);
+        flex-direction: column;
+        padding: 90px 40px;
+        transition: right 0.4s;
+        box-shadow: -8px 0 30px rgba(0,0,0,0.12);
+        gap: 1.5rem;
+      }
+      .nav-links.active { right: 0; }
+      .nav-links a { color: var(--text) !important; font-size: 1.1rem; }
+      .menu-toggle { display: block; }
+      .hero h1 { font-size: 2.2rem; }
+      section { padding: 60px 0; }
+      .section-header h2 { font-size: 1.8rem; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 鼠标光晕 -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- 粒子画布 -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- ==================== 导航栏 ==================== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">深蓝<span>科技</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">&#9776;</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="about.html">关于</a></li>
+        <li><a href="services.html">服务</a></li>
+        <li><a href="portfolio.html">案例</a></li>
+        <li><a href="blog.html">博客</a></li>
+        <li><a href="contact.html" class="nav-cta">联系我们</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ==================== Hero 视差区 ==================== -->
+  <section class="hero" id="hero">
+    <div class="parallax-layer parallax-bg-1" data-parallax="0.3"></div>
+    <div class="parallax-layer parallax-bg-2" data-parallax="0.5"></div>
+    <div class="hero-content">
+      <h1>用<span class="highlight">青蓝之力</span><br>驱动数字未来</h1>
+      <p>我们融合设计美学与前沿技术，为企业打造有温度、可增长的数字化体验。</p>
+      <div class="btn-group">
+        <a href="services.html" class="btn btn-primary">探索服务</a>
+        <a href="portfolio.html" class="btn btn-outline">查看案例</a>
+      </div>
+    </div>
+    <div class="scroll-indicator"><span></span></div>
+  </section>
+
+  <!-- ==================== 服务区 ==================== -->
+  <section id="services">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">我们的服务</span>
+        <h2>一站式数字解决方案</h2>
+        <p>从策略到落地，覆盖品牌、产品与增长的全链路服务。</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal" data-tilt>
+          <div class="service-icon">🎨</div>
+          <h3>品牌设计</h3>
+          <p>Logo、VI 视觉系统、品牌策略，建立深入人心的品牌形象。</p>
+          <a href="services.html#brand" class="card-link">了解更多 →</a>
+        </div>
+        <div class="service-card reveal" data-tilt>
+          <div class="service-icon">💻</div>
+          <h3>网站开发</h3>
+          <p>高性能、SEO友好、响应式网站，兼顾美学体验与工程品质。</p>
+          <a href="services.html#web" class="card-link">了解更多 →</a>
+        </div>
+        <div class="service-card reveal" data-tilt>
+          <div class="service-icon">📈</div>
+          <h3>增长营销</h3>
+          <p>SEO、内容营销与转化率优化，让流量真正变成增长引擎。</p>
+          <a href="services.html#growth" class="card-link">了解更多 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 统计数据区 ==================== -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <h3><span class="counter" data-target="286">0</span>+</h3>
+          <p>完成项目</p>
+        </div>
+        <div class="stat-item reveal">
+          <h3><span class="counter" data-target="150">0</span>+</h3>
+          <p>服务客户</p>
+        </div>
+        <div class="stat-item reveal">
+          <h3><span class="counter" data-target="14">0</span></h3>
+          <p>年行业经验</p>
+        </div>
+        <div class="stat-item reveal">
+          <h3><span class="counter" data-target="99">0</span>%</h3>
+          <p>客户满意度</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 案例展示 ==================== -->
+  <section id="portfolio">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">精选案例</span>
+        <h2>我们创造的影响力</h2>
+        <p>每一个项目都是深度思考与精心打磨的成果。</p>
+      </div>
+      <div class="portfolio-grid">
+        <div class="portfolio-card reveal">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect width='400' height='220' fill='%23d0e8f2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%230077B6' font-size='18'%3E案例一%3C/text%3E%3C/svg%3E" alt="科技品牌全案">
+          <div class="card-body">
+            <h4>AI 科技品牌全案设计</h4>
+            <p style="color:#666;font-size:0.9rem;">品牌策略 · VI设计 · 官网</p>
+          </div>
+        </div>
+        <div class="portfolio-card reveal">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect width='400' height='220' fill='%23d0e8f2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%230077B6' font-size='18'%3E案例二%3C/text%3E%3C/svg%3E" alt="电商平台">
+          <div class="card-body">
+            <h4>跨境电商平台 UX 重构</h4>
+            <p style="color:#666;font-size:0.9rem;">用户体验 · 转化率提升210%</p>
+          </div>
+        </div>
+        <div class="portfolio-card reveal">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect width='400' height='220' fill='%23d0e8f2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%230077B6' font-size='18'%3E案例三%3C/text%3E%3C/svg%3E" alt="SaaS产品">
+          <div class="card-body">
+            <h4>SaaS 产品官网与增长体系</h4>
+            <p style="color:#666;font-size:0.9rem;">官网设计 · SEO · 内容策略</p>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:40px;" class="reveal">
+        <a href="portfolio.html" class="btn btn-primary">查看更多案例</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA区 ==================== -->
+  <section class="cta-section">
+    <div class="container reveal">
+      <h2>准备好开启你的项目了吗？</h2>
+      <p style="color:rgba(255,255,255,0.85);max-width:500px;margin:1rem auto 2rem;">
+        告诉我们你的想法，我们将在24小时内回复。
+      </p>
+      <a href="contact.html" class="btn btn-primary" style="background:white;color:var(--primary);">立即咨询</a>
+    </div>
+  </section>
+
+  <!-- ==================== 页脚 ==================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>深蓝科技</h4>
+          <p style="font-size:0.9rem;">用设计与技术驱动品牌数字化增长。</p>
+        </div>
+        <div class="footer-col">
+          <h4>导航</h4>
+          <a href="index.html">首页</a>
+          <a href="about.html">关于我们</a>
+          <a href="services.html">服务</a>
+          <a href="portfolio.html">案例</a>
+        </div>
+        <div class="footer-col">
+          <h4>资源</h4>
+          <a href="blog.html">博客</a>
+          <a href="contact.html">联系我们</a>
+        </div>
+        <div class="footer-col">
+          <h4>联系方式</h4>
+          <p style="font-size:0.9rem;">📧 hello@deepblue.tech</p>
+          <p style="font-size:0.9rem;">📞 400-168-8888</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 深蓝科技. 保留所有权利。</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== 所有JavaScript ==================== -->
+  <script>
+    // ========== 1. 鼠标跟踪光晕 ==========
+    const cursorGlow = document.getElementById('cursorGlow');
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+    const lerpFactor = 0.08;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateGlow() {
+      currentX += (mouseX - currentX) * lerpFactor;
+      currentY += (mouseY - currentY) * lerpFactor;
+      cursorGlow.style.left = currentX + 'px';
+      cursorGlow.style.top = currentY + 'px';
+      requestAnimationFrame(animateGlow);
+    }
+    animateGlow();
+
+    // ========== 2. 粒子画布（鼠标互动） ==========
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const maxParticles = 50;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = (Math.random() - 0.5) * 1.2;
+        this.speedY = (Math.random() - 0.5) * 1.2;
+        this.life = 1;
+        this.decay = 0.005 + Math.random() * 0.015;
+        this.color = `hsla(${195 + Math.random() * 30}, 80%, 55%, `;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life -= this.decay;
+        this.size *= 0.998;
+      }
+      draw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color + this.life + ')';
+        ctx.fill();
+      }
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      for (let i = 0; i < 2; i++) {
+        if (particles.length < maxParticles) {
+          particles.push(new Particle(e.clientX, e.clientY));
+        }
+      }
+    });
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter(p => p.life > 0);
+      particles.forEach(p => {
+        p.update();
+        p.draw(ctx);
+      });
+      // 超出数量限制移除最旧的
+      while (particles.length > maxParticles) {
+        particles.shift();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // ========== 3. 导航栏滚动效果 ==========
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ========== 4. 移动端菜单 ==========
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
+
+    // ========== 5. 按钮波纹效果 ==========
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = e.clientX - rect.left - size / 2 + 'px';
+        ripple.style.top = e.clientY - rect.top - size / 2 + 'px';
+        this.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+      });
+    });
+
+    // ========== 6. 视差滚动 ==========
+    const parallaxLayers = document.querySelectorAll('[data-parallax]');
+    function updateParallax() {
+      const scrolled = window.pageYOffset;
+      parallaxLayers.forEach(layer => {
+        const speed = parseFloat(layer.getAttribute('data-parallax'));
+        // 只对 hero 区域内的层生效
+        const heroSection = document.getElementById('hero');
+        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+        if (scrolled < heroBottom) {
+          layer.style.transform = `translateY(${scrolled * speed}px)`;
+        }
+      });
+    }
+    window.addEventListener('scroll', updateParallax);
+
+    // ========== 7. Intersection Observer 入场动画 ==========
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // ========== 8. 数字递增动画 ==========
+    const counters = document.querySelectorAll('.counter');
+    const statsSection = document.querySelector('.stats-section');
+    let counted = false;
+
+    function animateCounters() {
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const duration = 1800;
+        const start = performance.now();
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          // easeOutExpo
+          const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+          counter.textContent = Math.floor(eased * target);
+          if (progress < 1) requestAnimationFrame(update);
+          else counter.textContent = target;
+        }
+        requestAnimationFrame(update);
+      });
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !counted) {
+        animateCounters();
+        counted = true;
+      }
+    }, { threshold: 0.4 });
+    if (statsSection) statsObserver.observe(statsSection);
+
+    // ========== 9. 3D 鼠标悬停倾斜（Tilt Effect） ==========
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      card.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+        this.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+      });
+    });
+  </script>
+</body>
+</html>
